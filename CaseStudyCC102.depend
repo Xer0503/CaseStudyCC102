@@ -1,0 +1,6 @@
+# depslib dependency file v1.0
+1745505338 source:c:\users\admin\desktop\casestudyc++\casestudycc102\main.cpp
+	<iostream>
+	<vector>
+	<iomanip>
+
