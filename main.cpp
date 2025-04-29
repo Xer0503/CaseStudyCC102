@@ -4,7 +4,7 @@
 
 using namespace std;
 
-const int maxRow = 9;
+const int maxRow = 10;
 int transactionCounter = 1;
 
 const string error = "Not Found or Invalid Input! Check spelling on the list provided";
@@ -21,8 +21,8 @@ struct Log {
 
 vector<Log> logList;
 
-
 string cryptoCurrencies[maxRow] = {
+    "Bitcoin",
     "Ethereum",
     "Binance",
     "Solana",
@@ -34,6 +34,7 @@ string cryptoCurrencies[maxRow] = {
 };
 
 string cryptoCurrenciesSubName[maxRow] = {
+    "btc",
     "eth",
     "bnb",
     "sol",
@@ -42,9 +43,10 @@ string cryptoCurrenciesSubName[maxRow] = {
     "dot",
     "shib",
     "matic",
- };
+};
 
 double cryptoValueInPeso[maxRow] = {
+    3743272.85,
     108022.97,
     35836.30,
     7236.75,
@@ -54,7 +56,9 @@ double cryptoValueInPeso[maxRow] = {
     0.0007314,
     5.89
 };
+
 double cryptoValueInUsd[maxRow] = {
+    63880.00,
     1843.52,
     606.79,
     125.59,
@@ -66,6 +70,7 @@ double cryptoValueInUsd[maxRow] = {
 };
 
 double cryptoValueInEur[maxRow] = {
+    59000.00,
     1700.00,
     560.00,
     115.00,
@@ -77,6 +82,7 @@ double cryptoValueInEur[maxRow] = {
 };
 
 double cryptoValueInJpy[maxRow] = {
+    10000000.00,
     300000.00,
     90000.00,
     20000.00,
@@ -143,7 +149,7 @@ int main() {
                 aboutUs();
                 break;
             case 'q':
-                cout << "\n\t\tExiting the program." << endl;
+                cout << "\n\t\tThanks for using our converting tool, Have a nice day!" << endl;
                 break;
             default:
                 cout << "\n\n\t\tInvalid option, please try again." << endl;
@@ -232,7 +238,6 @@ void checkIfValid(bool opt, string billType, char billSym, double amount, string
 
     } while (!valid);
 }
-
 
 // Option 1
 void cryptoToBill() {
@@ -386,7 +391,6 @@ void billToCrypto() {
 
                 break;
             case 'b':
-                cout << "Exiting the program." << endl;
                 break;
             default:
                 cout << "Invalid option, please try again." << endl;
@@ -470,8 +474,10 @@ void displayCryptoConvertedSelected(double bill, string billType, char billSym, 
 void displayCryptoConvertedAll(double bill, string billType, char billSym, bool opt) {
 
     if (opt == true) {
+        cout << fixed << setprecision(2);
+
         cout << "\t\t+-----------------------------------------------+\n";
-        cout << "\t\t|\tCrypto Value: '" << bill << "' into " << billType << "\t\t|\n";
+        cout << "\t\t|\tCrypto Value: '" << bill << "' into " << billType << "\t|\n";
         cout << "\t\t+-----------------------------------------------+" << endl;
 
         for (int i = 0; i < maxRow; i++) {
@@ -494,6 +500,8 @@ void displayCryptoConvertedAll(double bill, string billType, char billSym, bool 
         cout << "\t\t+-----------------------------------------------+" << endl;
 
     } else {
+        cout << fixed << setprecision(8);
+
         cout << "\n\t\tList of Crypto Converted:" << endl;
         cout << "\t\t-----------------------------------------\n";
         cout << "\t\t" << billType << "Bill Value: '" << bill << "' into Crypto Coins" << endl;
@@ -664,12 +672,16 @@ void aboutUs() {
     cout << "|               ABOUT US                     |\n";
     cout << "==============================================\n";
     cout << "| Project Title: Crypto Currency Converter   |\n";
-    cout << "| Date Created : April 24, 2025              |\n";
+    cout << "| Date Created : April 27, 2025              |\n";
     cout << "| Members:                                   |\n";
     cout << "|   * Rexie Villanueva                       |\n";
+    cout << "|      -Programmer                           |\n";
     cout << "|   * Rain Santiago                          |\n";
+    cout << "|      -Documentation                        |\n";
     cout << "|   * Trisha Ann Santos                      |\n";
+    cout << "|      -Documentation                        |\n";
     cout << "|   * Reyneil De Guzman                      |\n";
+    cout << "|      -Documentation                        |\n";
     cout << "==============================================\n";
     cout << "|   Thank you for checking out our project!  |\n";
     cout << "==============================================\n";
@@ -686,8 +698,6 @@ void historyTransaction(double bill, string selectCurrency, string billType, cha
     history.method = method;
 
     logList.push_back(history);
-
-    cout << "\n\n\t\t*** TRANSACTION RECORDED SUCCESSFULLY ***\n";
 }
 
 void displayTransactionHistory() {
@@ -699,7 +709,7 @@ void displayTransactionHistory() {
     cout << "\n\t\t========== Transaction History ==========\n";
     cout << "\t---------------------------------------------------------------------------------------------\n";
     cout << "\t" << left << setw(5) << "ID"
-         << setw(10) << "Amount"
+         << setw(18) << "Amount"
          << setw(18) << "Crypto Currency"
          << setw(12) << "Bill Type"
          << setw(8) << "Symbol"
@@ -708,13 +718,23 @@ void displayTransactionHistory() {
     cout << "\t---------------------------------------------------------------------------------------------\n";
 
     for (const auto& entry : logList) {
-        cout << "\t" << left << setw(5) << entry.id
-             << setw(10) << fixed << setprecision(2) << entry.amount
+            if (entry.method == "Crypto to Bill"){
+                cout << "\t" << left << setw(5) << entry.id
+             << setw(18) << fixed << setprecision(2) << entry.amount
+             << setw(18) << entry.selectedCurrency
+             << setw(12) << entry.billType
+             << setw(8) << entry.sym
+             << setw(15) << fixed << setprecision(2) << entry.convertedAmount
+             << setw(20) << entry.method << "\n";
+        }else{
+            cout << "\t" << left << setw(5) << entry.id
+             << setw(18) << fixed << setprecision(2) << entry.amount
              << setw(18) << entry.selectedCurrency
              << setw(12) << entry.billType
              << setw(8) << entry.sym
              << setw(15) << fixed << setprecision(8) << entry.convertedAmount
              << setw(20) << entry.method << "\n";
+        }
     }
     cout << "\t---------------------------------------------------------------------------------------------\n";
 }
